@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Auth;
+use Session;
 use DB;
 
 class AuthController extends Controller
@@ -19,7 +21,7 @@ class AuthController extends Controller
         if (count($chkAuth) > 0) {
             echo json_encode(["status" => 200]);
             $request->session()->put('user_id', $chkAuth[0]->id);
-            $user_id = $request->session()->get("user_id");
+            $user_id = $request->Session()->get("user_id");
         } else {
             echo json_encode(["status" => 500]);
         }
@@ -29,7 +31,9 @@ class AuthController extends Controller
     {
         $user_id = $request->session()->get("user_id");
         ($user_id == "") ? redirect('/') : "";
+        $data['title'] = "Dashboard";
         $data['agents'] = DB::table("agents")->select('*')->get()->toArray();
+        $data['totalAgents'] = DB::table("agents")->count();
         return view("dashboard", $data);
     }
 
@@ -51,5 +55,18 @@ class AuthController extends Controller
         } else {
             echo json_encode(["status" => 500]);
         }
+    }
+
+    public function agent_list()
+    {
+        $data['title'] = "Agent List";
+        $data['agents'] = DB::table("agents")->select('*')->get()->toArray();
+        return view('agent_list', $data);
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        return redirect('/');
     }
 }

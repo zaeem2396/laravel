@@ -19,5 +19,11 @@ Route::get('/', function () {
 
 Route::post('/Auth', 'AuthController@login');
 Route::get('/dashboard', 'AuthController@dashboard');
+Route::get('/logout', 'AuthController@logout');
+Route::get('/agent_list', 'AuthController@agent_list');
 Route::post('/disableAgent', 'AuthController@disableAgent');
 Route::post('/enableAgent', 'AuthController@enableAgent');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
