@@ -17,13 +17,13 @@ Route::get('/', function () {
     return view('index');
 });
 
+// POST method
 Route::post('/Auth', 'AuthController@login');
+Route::post('/updateAgentStatus', 'AuthController@updateAgentStatus');
+
+
+// GET method
 Route::get('/dashboard', 'AuthController@dashboard');
 Route::get('/logout', 'AuthController@logout');
 Route::get('/agent_list', 'AuthController@agent_list');
-Route::post('/disableAgent', 'AuthController@disableAgent');
-Route::post('/enableAgent', 'AuthController@enableAgent');
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/getAgentData', 'AuthController@getAgentData');
