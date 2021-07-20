@@ -45,7 +45,7 @@ class AuthController extends Controller
             $color = $val->STATUS == '1' ? 'danger' : 'success';
             $btnname = $val->STATUS == '1' ? 'Deactivate' : 'Activate';
             $value = $val->STATUS == '1' ? '0' : '1';
-            $val->btn = '<button type="button" onclick="updateAgentStatus(this)" id="btn-'.$val->AGENT_CODE.'" data-id="'. $val->AGENT_CODE.'" data-value="'.$value.'" class="btn btn-sm btn-'.$color.'">'.$btnname.' </button>';
+            $val->btn = '<button type="button" onclick="updateAgentStatus(this)" id="btn-' . $val->AGENT_CODE . '" data-id="' . $val->AGENT_CODE . '" data-value="' . $value . '" class="btn btn-sm btn-' . $color . '">' . $btnname . ' </button>';
 
             $data[] = [
                 $key + 1,
@@ -54,7 +54,7 @@ class AuthController extends Controller
                 $val->WORKING_AREA,
                 $val->COMMISSION,
                 $val->PHONE_NO,
-                $val->STATUS == 1 ? '<span id="span-'.$val->AGENT_CODE.'" class="badge badge-success">Active</span>' : '<span id="span-'.$val->AGENT_CODE.'" class="badge badge-danger">Deactivated</span>',
+                $val->STATUS == 1 ? '<span id="span-' . $val->AGENT_CODE . '" class="badge badge-success">Active</span>' : '<span id="span-' . $val->AGENT_CODE . '" class="badge badge-danger">Deactivated</span>',
                 $val->btn
             ];
         }
@@ -70,7 +70,11 @@ class AuthController extends Controller
     {
         $id = $request->input("id");
         $status = $request->input("status");
-        DB::table('agents')->where('AGENT_CODE', $id)->update(['STATUS' => $status]);
+        if (DB::table('agents')->where('AGENT_CODE', $id)->update(['STATUS' => $status])) {
+            echo json_encode(["status" => 200]);
+        } else {
+            echo json_decode(["status" => 500]);
+         }
     }
 
     public function agent_list()

@@ -30,13 +30,16 @@ const updateAgentStatus = e => {
             method: "POST",
             data: { id, status },
             success: function (response) {
-                $(`#${btnid}`).attr('data-value', btnvalue);
-                $(`#span-${id}`).removeClass('badge-' + addclass);
-                $(`#span-${id}`).addClass('badge-' + removeclass);
-                $(`#span-${id}`).text(spanname);
-                $(`#${btnid}`).removeClass('btn-' + removeclass);
-                $(`#${btnid}`).addClass('btn-' + addclass);
-                $(`#${btnid}`).text(btnname);
+                let data = JSON.parse(response)
+                if (data.status === 200) {
+                    $(`#${btnid}`).attr('data-value', btnvalue);
+                    $(`#span-${id}`).removeClass(`badge-${addclass}`);
+                    $(`#span-${id}`).addClass(`badge-${removeclass}`);
+                    $(`#span-${id}`).text(spanname);
+                    $(`#${btnid}`).removeClass(`btn-${removeclass}`);
+                    $(`#${btnid}`).addClass(`btn-${addclass}`);
+                    $(`#${btnid}`).text(btnname);
+                }
             }
         })
     } else {
