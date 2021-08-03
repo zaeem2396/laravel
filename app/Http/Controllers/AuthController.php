@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Auth;
 use Session;
 use DB;
+use Cloudinary;
 
 class AuthController extends Controller
 {
@@ -82,6 +83,12 @@ class AuthController extends Controller
         $data['title'] = "Agent List";
         $data['agents'] = DB::table("agents")->select('*')->get()->toArray();
         return view('agent_list', $data);
+    }
+
+    public function uploadFile(Request $request)
+    {
+        $uploadedFileUrl = Cloudinary::upload($request->file('file')->getRealPath())->getSecurePath();
+        var_dump($uploadedFileUrl);
     }
 
     public function logout(Request $request)

@@ -16,11 +16,15 @@ use App\Http\Controllers\AuthController;
 Route::get('/', function () {
     return view('index');
 });
+Route::get('/uploadImage', function () {
+    return view('uploadImage');
+});
+
 
 // POST method
 Route::post('/Auth', 'AuthController@login');
 Route::post('/updateAgentStatus', 'AuthController@updateAgentStatus');
-
+Route::post('/uploadFile', 'AuthController@uploadFile');
 
 // GET method
 Route::get('/dashboard', 'AuthController@dashboard');
